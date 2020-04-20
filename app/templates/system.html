@@ -1,0 +1,391 @@
+<html lang="en" ng-app="habridge" class="ng-scope"><head><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HA Bridge</title>
+    <link href="css/main.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+  <link href="css/ngToast.min.css" rel="stylesheet">
+  <link href="css/rzslider.min.css" rel="stylesheet">
+  <link href="css/ngDialog.min.css" rel="stylesheet">
+  <link href="css/ngDialog-theme-default.min.css" rel="stylesheet">
+  <link href="css/scrollable-table.css" rel="stylesheet">
+  <link href="css/strength-meter.min.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="js/html5shiv.min.js"></script>
+    <script type="text/javascript" src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+  <div class="ng-toast ng-toast--right ng-toast--top "><ul class="ng-toast__list"><!-- ngRepeat: message in messages --></ul></div>
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container ng-scope" ng-controller="VersionController">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">HA Bridge</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="http://echo.amazon.com/#cards" target="_blank">My Echo</a></li>
+          <li class="dropdown">
+            <a id="dLabel1" href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Help <span class="caret"></span></a>
+            <ul class="dropdown-menu" aria-labelledby="dLabel">
+              <li><a href="https://github.com/bwssytems/ha-bridge/blob/master/README.md" target="_blank">Readme</a></li>
+              <li><a href="https://github.com/bwssytems/ha-bridge/wiki/HA-Bridge-FAQs" target="_blank">FAQ</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a id="dLabel2" href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About <span class="caret"></span></a>
+            <ul class="dropdown-menu" aria-labelledby="dLabel">
+              <li><a href="http://www.bwssystems.com" target="_blank">Developed by BWS Systems</a></li>
+              <li><a href="http://www.amazon.com/echo" target="_blank">Amazon Echo</a></li>
+              <li><a href="" class="ng-binding">HA Bridge Version 4.5.6</a></li>
+              <li><center>
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" class="ng-pristine ng-valid">
+                <input type="hidden" name="cmd" value="_s-xclick" autocomplete="off">
+                <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+                " autocomplete="off">
+                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                </form>
+                </center>
+              </li>
+            </ul>
+          </li>
+          <li><a href="#!/login">Login/Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ngView: --><div ng-view="" prerender-action="authorized()" class="ng-scope"><ul class="nav nav-pills ng-scope" role="tablist">
+  <li role="presentation"><a href="/">Bridge Devices</a></li>
+  <li role="presentation" class="active"><a href="/system">Bridge
+      Control</a></li>
+  <li role="presentation"><a href="/logs">Logs</a></li>
+  <!-- ngIf: bridge.showVera -->
+  <!-- ngIf: bridge.showVera -->
+  <!-- ngIf: bridge.showHarmony -->
+  <!-- ngIf: bridge.showHarmony -->
+  <!-- ngIf: bridge.showNest -->
+  <!-- ngIf: bridge.showHue -->
+  <!-- ngIf: bridge.showHal -->
+  <!-- ngIf: bridge.showMqtt -->
+  <!-- ngIf: bridge.showHass -->
+  <!-- ngIf: bridge.showDomoticz -->
+  <!-- ngIf: bridge.showSomfy -->
+  <!-- ngIf: bridge.showLifx -->
+  <li role="presentation"><a href="/editdevice">Add/Edit</a></li>
+</ul>
+
+<div class="panel panel-default ng-scope">
+  <div class="panel-heading">
+    <h1 class="panel-title">Bridge Settings</h1>
+  </div>
+  <div class="panel-body">
+
+    <form class="form-horizontal ng-pristine ng-valid">
+      <div class="form-group">
+        <label class="col-xs-12 col-sm-2 control-label" for="bridge-base">Bridge
+          server</label>
+
+        <div class="col-xs-8 col-sm-7">
+          <input id="bridge-base" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" type="text" ng-model="bridge.base" placeholder="URL to bridge">
+        </div>
+        <button type="submit" class="col-xs-2 col-sm-1 btn btn-primary" ng-click="goBridgeUrl(bridge.base)">Test</button>
+      </div>
+    </form>
+    <form name="form" class="ng-pristine ng-valid ng-valid-min ng-valid-max">
+      <p>
+        <button ng-disabled="bridge.isInControl" class="btn btn-success" type="submit" ng-click="saveSettings()">Save</button>
+        <button ng-disabled="bridge.isInControl" class="btn btn-warning" type="submit" ng-click="bridgeReinit()">Bridge Reinitialize</button>
+        <button ng-disabled="bridge.isInControl" class="btn btn-danger" type="submit" ng-click="bridgeStop()">Bridge Stop</button>
+        <button class="btn btn-warning" type="submit" ng-click="changeSeuritySettings()">Update Security Settings</button>
+      </p>
+      <table class="table table-bordered table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Setting</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+          <td>Configuration Path and File</td>
+          <td><input id="bridge-settings-configfile" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" type="text" ng-model="bridge.settings.configfile" placeholder="data/ha-bridge.config"></td>
+        </tr>
+        <tr>
+          <td>Device DB Path and File</td>
+          <td><input id="bridge-settings-upnpdevicedb" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" type="text" ng-model="bridge.settings.upnpdevicedb" placeholder="data/device.db"></td>
+        </tr>
+        <tr>
+          <td>UPNP IP Address</td>
+          <td><input id="bridge-settings-upnpconfigaddress" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" type="text" ng-model="bridge.settings.upnpconfigaddress" placeholder="192.168.1.1"></td>
+        </tr>
+        <tr>
+          <td>Use UPNP Address Interface Only</td>
+          <td class="ng-binding"><input type="checkbox" ng-model="bridge.settings.useupnpiface" ng-true-value="true" ng-false-value="false" class="ng-pristine ng-untouched ng-valid ng-empty"> false</td>
+        </tr>
+        <tr>
+          <td>Web Server IP Address</td>
+          <td><input id="bridge-settings-webaddress" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" type="text" ng-model="bridge.settings.webaddress" placeholder="0.0.0.0"></td>
+        </tr>
+        <tr>
+          <td>Web Server Port</td>
+          <td><input id="bridge-settings-serverport" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-min ng-valid-max" type="number" ng-model="bridge.settings.serverport" min="1" max="65535"></td>
+        </tr>
+        <tr>
+          <td>UPNP Response Port</td>
+          <td><input id="bridge-settings-upnpresponseport" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-min ng-valid-max" type="number" ng-model="bridge.settings.upnpresponseport" min="1" max="65535"></td>
+        </tr>
+        <tr>
+          <td>Vera Names and IP Addresses</td>
+          <td><table class="table table-bordered table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>IP</th>
+                  <th>Manage</th>
+                </tr>
+              </thead>
+              <tbody><!-- ngRepeat: vera in bridge.settings.veraaddress.devices -->
+              <tr>
+                <td><input id="bridge-settings-new-vera-name" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text" ng-model="newveraname" placeholder="A Vera"></td>
+                <td><input id="bridge-settings-new-vera-ip" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text" ng-model="newveraip" placeholder="192.168.1.2"></td>
+                <td><button class="btn btn-success" type="submit" ng-click="addVeratoSettings(newveraname, newveraip)">Add</button></td>
+              </tr>
+            </tbody></table></td>
+        </tr>
+        <tr>
+          <td>Harmony Names and IP Addresses</td>
+          <td><table class="table table-bordered table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                                    <th>IP</th>
+                                    <th>Webhook</th>
+                  <th>Manage</th>
+                </tr>
+              </thead>
+              <tbody><!-- ngRepeat: harmony in bridge.settings.harmonyaddress.devices -->
+              <tr>
+                <td><input id="bridge-settings-new-harmony-name" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text" ng-model="newharmonyname" placeholder="A Harmony"></td>
+                                <td><input id="bridge-settings-new-harmony-ip" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text" ng-model="newharmonyip" placeholder="192.168.1.3"></td>
+                                <td><input id="bridge-settings-new-harmony-webhook" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text" ng-model="newharmonywebhook" placeholder="http://hook?a=${activity.label}"></td>
+                <td><button class="btn btn-success" type="submit" ng-click="addHarmonytoSettings(newharmonyname, newharmonyip, newharmonywebhook)">Add</button></td>
+              </tr>
+            </tbody></table></td>
+        </tr>
+        <tr>
+          <td>Hue Names and IP Addresses</td>
+          <td><table class="table table-bordered table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>IP</th>
+                  <th>Manage</th>
+                </tr>
+              </thead>
+              <tbody><!-- ngRepeat: hue in bridge.settings.hueaddress.devices -->
+              <tr>
+                <td><input id="bridge-settings-new-hue-name" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text" ng-model="newhuename" placeholder="A Hue"></td>
+                <td><input id="bridge-settings-new-hue-ip" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text" ng-model="newhueip" placeholder="192.168.1.3"></td>
+                <td><button class="btn btn-success" type="submit" ng-click="addHuetoSettings(newhuename, newhueip)">Add</button></td>
+              </tr>
+            </tbody></table></td>
+        </tr>
+        <tr>
+          <td>HAL Names and IP Addresses</td>
+          <td><table class="table table-bordered table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>IP</th>
+                  <th>Token</th>
+                  <th>Use SSL</th>
+                  <th>Manage</th>
+                </tr>
+              </thead>
+              <tbody><!-- ngRepeat: hal in bridge.settings.haladdress.devices -->
+              <tr>
+                <td><input id="bridge-settings-new-hal-name" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text" ng-model="newhalname" placeholder="A Hal"></td>
+                <td><input id="bridge-settings-new-hal-ip" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text" ng-model="newhalip" placeholder="192.168.1.3:82"></td>
+                <td><input id="bridge-settings-new-haltoken" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="password" ng-model="newhaltoken" placeholder="thetoken"></td>
+                <td><input type="checkbox" ng-model="newhalsecure" ng-true-value="true" ng-false-value="false" class="ng-pristine ng-untouched ng-valid ng-empty"></td>
+                <td><button class="btn btn-success" type="submit" ng-click="addHaltoSettings(newhalname, newhalip, newhalsecure, newhaltoken)">Add</button></td>
+              </tr>
+            </tbody></table></td>
+        </tr>
+        <tr>
+          <td>HAL Token (please use token on individual HAL entry)</td>
+          <td><input id="bridge-settings-haltoken" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="password" ng-model="bridge.settings.haltoken" placeholder="thetoken"></td>
+        </tr>
+        <tr>
+          <td>MQTT Client IDs and IP Addresses</td>
+          <td><table class="table table-bordered table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Client ID</th>
+                  <th>IP</th>
+                  <th>User (opt)</th>
+                  <th>Password (opt)</th>
+                  <th>Manage</th>
+                </tr>
+              </thead>
+              <tbody><!-- ngRepeat: mqtt in bridge.settings.mqttaddress.devices -->
+              <tr>
+                <td><input id="bridge-settings-new-mqtt-name" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text" ng-model="newmqttname" placeholder="A MQTT Client ID"></td>
+                <td><input id="bridge-settings-new-mqtt-ip" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text" ng-model="newmqttip" placeholder="MQTT Broker IP and port"></td>
+                <td><input id="bridge-settings-new-mqtt-username" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text" ng-model="newmqttusername" placeholder="MQTT Broker username (optional)"></td>
+                <td><input id="bridge-settings-new-mqtt-password" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="password" ng-model="newmqttpassword" placeholder="MQTT Broker password (opt)"></td>
+                <td><button class="btn btn-success" type="submit" ng-click="addMQTTtoSettings(newmqttname, newmqttip, newmqttusername, newmqttpassword)">Add</button></td>
+              </tr>
+            </tbody></table></td>
+        </tr>
+        <tr>
+          <td>HomeAssistant Names and IP Addresses</td>
+          <td><table class="table table-bordered table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>IP</th>
+                  <th>Port</th>
+                  <th>Password (opt)</th>
+                  <th>Use SSL</th>
+                  <th>Manage</th>
+                </tr>
+              </thead>
+              <tbody><!-- ngRepeat: hass in bridge.settings.hassaddress.devices -->
+              <tr>
+                <td><input id="bridge-settings-new-hass-name" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text" ng-model="newhassname" placeholder="A HomeAssistant"></td>
+                <td><input id="bridge-settings-new-hass-ip" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text" ng-model="newhassip" placeholder="192.168.1.3"></td>
+                <td><input id="bridge-settings-new-hass-port" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text" ng-model="newhassport" placeholder="8123"></td>
+                <td><input id="bridge-settings-new-hass-password" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="password" ng-model="newhasspassword" placeholder="Home Assistant password (opt)"></td>
+                <td><input type="checkbox" ng-model="newhasssecure" ng-true-value="true" ng-false-value="false" class="ng-pristine ng-untouched ng-valid ng-empty"></td>
+                <td><button class="btn btn-success" type="submit" ng-click="addHasstoSettings(newhassname, newhassip, newhassport, newhasspassword, newhasssecure)">Add</button></td>
+              </tr>
+            </tbody></table></td>
+        </tr>
+        <tr>
+          <td>Domoticz Names and IP Addresses</td>
+          <td><table class="table table-bordered table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>IP</th>
+                  <th>Port</th>
+                  <th>Username (opt)</th>
+                  <th>Password (opt)</th>
+                  <th>Manage</th>
+                </tr>
+              </thead>
+              <tbody><!-- ngRepeat: domoticz in bridge.settings.domoticzaddress.devices -->
+              <tr>
+                <td><input id="bridge-settings-new-domoticz-name" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text" ng-model="newdomoticzname" placeholder="A Domoticz"></td>
+                <td><input id="bridge-settings-new-domoticz-ip" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text" ng-model="newdomoticzip" placeholder="192.168.1.3"></td>
+                <td><input id="bridge-settings-new-domoticz-port" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text" ng-model="newdomoticzport" placeholder="8080"></td>
+                <td><input id="bridge-settings-new-domoticz-username" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text" ng-model="newdomoticzusername" placeholder="Domoticz username"></td>
+                <td><input id="bridge-settings-new-domoticz-password" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="password" ng-model="newdomoticzpassword" placeholder="Domoticz password (opt)"></td>
+                <td><button class="btn btn-success" type="submit" ng-click="addDomoticztoSettings(newdomoticzname, newdomoticzip, newdomoticzport, newdomoticzusername, newdomoticzpassword)">Add</button></td>
+              </tr>
+            </tbody></table></td>
+        </tr>
+        <tr>
+          <td>Somfy Names and IP Addresses</td>
+          <td><table class="table table-bordered table-striped table-hover">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>IP/hostname</th>
+              <th>Username</th>
+              <th>Password </th>
+              <th>Manage</th>
+            </tr>
+            </thead>
+            <tbody><!-- ngRepeat: somfy in bridge.settings.somfyaddress.devices -->
+            <tr>
+              <td><input id="bridge-settings-new-somfy-name" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text" ng-model="newsomfyname" placeholder="A Somfy"></td>
+              <td><input id="bridge-settings-new-somfy-ip" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text" ng-model="newsomfyip" placeholder="https://www.tahomalink.com"></td>
+              <td><input id="bridge-settings-new-somfy-username" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text" ng-model="newsomfyusername" placeholder="Somfy username"></td>
+              <td><input id="bridge-settings-new-somfy-password" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="password" ng-model="newsomfypassword" placeholder="Somfy password"></td>
+              <td><button class="btn btn-success" type="submit" ng-click="addSomfytoSettings(newsomfyname, newsomfyip, newsomfyusername, newsomfypassword)">Add</button></td>
+            </tr>
+          </tbody></table></td>
+        </tr>
+        <tr>
+          <td>Nest Username</td>
+          <td><input id="bridge-settings-nestuser" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="text" ng-model="bridge.settings.nestuser" placeholder="someone@gmail.com"></td>
+        </tr>
+        <tr>
+          <td>Nest Password</td>
+          <td><input id="bridge-settings-nestpwd" class="form-control ng-pristine ng-untouched ng-valid ng-empty" type="password" ng-model="bridge.settings.nestpwd" placeholder="thepassword"></td>
+        </tr>
+        <tr>
+          <td>Nest Temp Farenheit</td>
+          <td class="ng-binding"><input type="checkbox" ng-model="bridge.settings.farenheit" ng-true-value="true" ng-false-value="false" class="ng-pristine ng-untouched ng-valid ng-not-empty"> true</td>
+        </tr>
+        <tr>
+          <td>LIFX Support</td>
+          <td class="ng-binding"><input type="checkbox" ng-model="bridge.settings.lifxconfigured" ng-true-value="true" ng-false-value="false" class="ng-pristine ng-untouched ng-valid ng-empty"> false</td>
+        </tr>
+        <tr>
+          <td>Emulate Hue Hub Version</td>
+          <td><input id="bridge-settings-hubversion" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" type="text" ng-model="bridge.settings.hubversion" placeholder="01036562"></td>
+        </tr>
+        <tr>
+          <td>Button Press/Call Item Loop Sleep Interval (ms)</td>
+          <td><input id="bridge-settings-buttonsleep" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-min ng-valid-max" type="number" name="input" ng-model="bridge.settings.buttonsleep" min="100" max="9999"></td>
+        </tr>
+        <tr>
+          <td>Log Messages to Buffer</td>
+          <td><input id="bridge-settings-numberoflogmessages" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-min ng-valid-max" type="number" ng-model="bridge.settings.numberoflogmessages" min="100" max="65535"></td>
+        </tr>
+        <tr>
+          <td>UPNP Strict Handling</td>
+          <td class="ng-binding"><input type="checkbox" ng-model="bridge.settings.upnpstrict" ng-true-value="true" ng-false-value="false" class="ng-pristine ng-untouched ng-valid ng-not-empty"> true</td>
+        </tr>
+        <tr>
+          <td>Trace UPNP Calls</td>
+          <td class="ng-binding"><input type="checkbox" ng-model="bridge.settings.traceupnp" ng-true-value="true" ng-false-value="false" class="ng-pristine ng-untouched ng-valid ng-empty"> false</td>
+        </tr>
+        <tr>
+          <td>My Echo URL</td>
+          <td><input id="bridge-settings-myechourl" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" type="text" ng-model="bridge.settings.myechourl" placeholder="echo.amazon.com/#cards"></td>
+        </tr>
+      </tbody></table>
+    </form>
+  </div>
+</div>
+<div class="panel panel-default ng-scope">
+  <div class="panel-heading">
+    <h1 class="panel-title">
+      Bridge Settings Backup <a ng-click="toggle()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+    </h1>
+  </div>
+  <!-- ngIf: visible -->
+</div></div>
+
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-route.min.js"></script>
+  <script src="js/angular-sanitize.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/ngToast.min.js"></script>
+  <script src="js/rzslider.min.js"></script>
+    <script src="js/ngDialog.min.js"></script>
+    <script src="js/angular-scrollable-table.min.js"></script>
+    <script src="js/strength-meter.min.js"></script>
+    <script src="js/angular-base64.min.js"></script>
+    <script src="js/angular-resource.min.js"></script>
+    <script src="js/ngStorage.min.js"></script>
+    <script src="scripts/app.js"></script>
+
+</body></html>
